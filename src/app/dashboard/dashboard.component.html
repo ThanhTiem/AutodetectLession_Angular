@@ -1,0 +1,419 @@
+<div class="row fixbutton" *ngIf="false">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="row" style=" height: 120px; text-align: center">
+        <div class="horizontal-scroll-wrapper">
+          <!-- <div class="linkbox">
+            <a routerLink="/service/list" routerLinkActive="active">
+              <i class="fa fa-plus" style="color: #306EFF;"></i></a>
+            <div>
+              <div>Create New</div>
+            </div>
+          </div> -->
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fa fa-server" style="color: #F75D59;"></i></a>
+            <div>
+              <div>Server Cluster</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/storage" routerLinkActive="active">
+              <i class="fas fa-box" style="color: #C85A17;"></i></a>
+            <div>
+              <div>Storage</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-chart-pie" style="color: #EDE275;"></i></a>
+            <div>
+              <div>Cache</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-cogs" style="color: #306EFF;"></i></a>
+            <div>
+              <div>API Gateway</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-envelope-open-text" style="color: #347C2C;"></i></a>
+            <div>
+              <div>Message Hub</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-search" style="color: #6698FF;"></i></a>
+            <div>
+              <div>Search</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-dharmachakra" style="color: #306EFF;"></i></a>
+            <div>
+              <div>Kubernetes</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="far fa-bell" style="color: #F75D59;"></i></a>
+            <div>
+              <div>Notification</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fab fa-docker" style="color: #306EFF;"></i></a>
+            <div>
+              <div>Container</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-robot" style="color:#842DCE;"></i></a>
+            <div>
+              <div>AI Service</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-balance-scale" style="color: #F75D59;"></i></a>
+            <div>
+              <div>Load Balancer</div>
+            </div>
+          </div>
+          <div class="linkbox">
+            <a routerLink="/cluster" routerLinkActive="active">
+              <i class="fas fa-file" style="color: #5CB3FF;"></i></a>
+            <div>
+              <div>Log Manager</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="row" style="margin-top: 105px;">-->
+<div class="row">
+  <div class="col grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body" style="padding-bottom: 0px;">
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+            <div class="grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body" style="background-color: beige;">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-chip text-danger icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="mb-0 text-right">Tổng bệnh nhân</p>
+                      <div class="fluid-container">
+                        <h3 class="font-weight-medium text-right mb-0">25 BN</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+            <div class="grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body" style="background-color: beige;">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-memory text-warning icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="mb-0 text-right">Tổng ảnh</p>
+                      <div class="fluid-container">
+                        <h3
+                          class="font-weight-medium text-right mb-0">{{common.formatSizeUnitsTotal(dashBoard.RamTotal)}}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+            <div class="grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body" style="background-color: beige;">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-folder text-success icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="mb-0 text-right">Ảnh chưa xử lý</p>
+                      <div class="fluid-container">
+                        <h3
+                          class="font-weight-medium text-right mb-0">{{common.formatSizeUnitsTotal(dashBoard.StorageTotal)}}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+            <div class="grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body" style="background-color: beige;">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-receipt text-primary icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="mb-0 text-right">ảnh đã xử lý</p>
+                      <div class="fluid-container">
+                        <a routerLink="/storage" style="cursor: pointer; color: black; text-decoration: none; "><h3
+                          class="font-weight-medium text-right mb-0">{{totalRequest}}</h3></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="row">
+  <div class="col grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body" style="background-color: #e9ecef; padding-bottom: 0px;">
+        <h4 class="card-title">Storage service</h4>
+        <div class="row" *ngIf="listTenantRequest?.length > 0">
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+            <div class="row" style="height: 100%;">
+              <div class="col grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <highcharts-chart
+                      [Highcharts]="highcharts"
+                      [options]="pieOptions"
+                      style="display: block;">
+                    </highcharts-chart>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Request Storage services</h4>
+                <table class="table table-hover table-responsive" style="width:100%;">
+                  <thead>
+                  <tr>
+                    <th>Organization</th>
+                    <th>Access key</th>
+                    <th class="hideEmail">Email</th>
+                    <th class="hidePhone">Phone</th>
+                    <th width="20%"></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let tn of listTenantRequest | paginate:{id: 'request', itemsPerPage: itemsPerPage, currentPage:currentPageRequest}">
+                    <td>{{tn.Name}}</td>
+                    <td>{{tn.UserName}}</td>
+                    <td class="hideEmail">{{tn.Email}}</td>
+                    <td class="hidePhone">{{tn.Phone}}</td>
+                    <td style="float: left;">
+                      <button class="btn btn-primary" style="margin-right: 5px;" (click)="open(content, tn)">Accept
+                      </button>
+                      <button class="btn btn-danger" (click)="open(confirmReject, tn)">Reject</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <pagination-controls id="request" (pageChange)="pageChangeRequest($event)" style="margin-top: 1rem;"
+                                     class="hide-page-numbers">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Top Storage services</h4>
+                <div class="row">
+                  <div class="col">
+                    <table class="table table-bordered" style="width: 100%;">
+                      <thead>
+                      <th>Service</th>
+                      <th>Used Storage</th>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let tenant of tenantstoragetop" (click)="getTenantDetail(tenant.Id)"
+                          style="cursor: pointer;">
+                        <td>{{tenant.UserName}}</td>
+                        <td>{{common.formatSizeUnits(tenant.UsedStorage)}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">
+                  Top cluster use
+                </div>
+                <table class="table table-bordered" style="width: 100%;">
+                  <thead>
+                  <th>Cluster</th>
+                  <th>Percent Storage</th>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let cluster of clusterstoragetop" (click)="getClusterDetail(cluster.Id)" style="cursor: pointer;">
+                    <td>{{cluster.Name}}</td>
+                    <td [ngClass]="{available: cluster.PercentStorage <= 60, warning: cluster.PercentStorage > 60 && cluster.PercentStorage <= 80, danger: cluster.PercentStorage > 80}">{{cluster.PercentStorage}} %</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+            <div class="row" style="height: 100%;">
+              <div class="col grid-margin stretch-card">
+                <div class="card ">
+                  <div class="card-body">
+                    <h4 class="card-title">Storage in use</h4>
+                    <div class="row">
+                      <div class="col">
+                        <highcharts-chart
+                          [Highcharts]="highcharts"
+                          [options]="storageOptions"
+                          style="display: block;">
+                        </highcharts-chart>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+            <div class="row" style="height: 100%;">
+              <div class="col grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Recent storage services</h4>
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                      <th>Service</th>
+                      <th>Created Date</th>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let tenant of tenantRecent" (click)=" getTenantDetail(tenant.Id)"
+                          style="cursor: pointer;">
+                        <td>{{tenant.UserName}}</td>
+                        <td>{{tenant.CreatedOn | date: 'dd/MM/yyyy'}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #confirmReject let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Warning!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to reject this request?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="rejectRequest()">Ok</button>
+    <button type="button" class="btn btn-primary" (click)="d('Cross click')">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header" style="padding: 25px 26px 0 20px ;">
+    <h4 class="modal-title" id="modal-basic-title">Choose Cluster</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 20px;">
+    <form class="row" [formGroup]='AcceptFormGroup'>
+      <div class="col">
+        <div class="form-group">
+          <label for="server">Cluster Name:</label>
+          <select id="server" class="form-control" formControlName="clusterId">
+            <option *ngFor="let server of listCluster"
+                    [value]="server.Id">
+              {{server.Name }}
+            </option>
+          </select>
+          <div *ngIf="clusterId.invalid && (clusterId.dirty || clusterId.touched)"
+               style="color:red; font-size:0.7rem;">
+            <div *ngIf="clusterId.errors.required">
+              Cluster is invalid.
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="padding: 0 31px 15px 31px;">
+    <button type="button" class="btn btn-primary" (click)="createService()" [disabled]="AcceptFormGroup.invalid"><i
+      class="fa fa-plus-square-o"></i> Create
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Cancel</button>
+  </div>
+</ng-template>
+
+<div class="my-container">
+  <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>
+        Please wait for creating a storage service
+      </h3>
+    </div>
+  </ng-template>
+  <ngx-loading [show]="loading"
+               [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, primaryColour: primaryColour, fullScreenBackdrop:true}"
+               [template]="customLoadingTemplate">
+  </ngx-loading>
+</div> -->
+
+
+
+
+
+
+

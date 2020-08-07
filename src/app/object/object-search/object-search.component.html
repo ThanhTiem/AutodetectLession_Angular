@@ -1,0 +1,93 @@
+<div class="row fixbutton">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">
+        Search
+      </div>
+      <div class="col-lg-12" style="margin:8px;">
+        <button type="button" class="btn btn-primary" (click)="parent()" title="Delete Object">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)="refresh()"><i
+          class="fas fa-recycle"></i> Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin-top: 110px;">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body" style="background-color: white">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search object" [(ngModel)]="searchKey">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" (click)="SearchObject();">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+          <div class="checkbox" style="margin-top: 1rem; font-size: 0.8rem; vertical-align: middle;">
+            <label for="metadata" style="word-wrap:break-word">
+              <input id="metadata" type="checkbox" [(ngModel)]="includeMetadata">
+              <i> Include Metadata</i>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card ">
+  <div class="card-header">
+    List Objects
+  </div>
+  <div class="card-body" style="overflow-x: auto;">
+    <table class="table table-hover row-border" style="width: 100%;">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Size</th>
+        <th>Last Modified</th>
+        <th *ngIf="accessLevel==='Public'">Url</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngIf="objectModels.length >= 1">
+        <tr *ngFor="let obj of objectModels" (click)="ObjectDetail(obj.Key)">
+          <td><i class={{common.showIcon(obj.Key)}} style="width: 16px; height: 18px; "></i> {{obj.Key}}</td>
+          <td>{{common.formatSizeUnits(obj.Size)}}</td>
+          <td>{{obj.LastModifiedDateTime | date: 'dd/MM/yyyy HH:mm'}}</td>
+        </tr>
+      </ng-container>
+      <!--
+      <ng-container *ngIf="objectModels.length < 1;">
+        <tr>
+          <td colspan="3">TEST</td>
+        </tr>
+      </ng-container>
+      -->
+      <ng-container *ngIf="objectModels.length < 1">
+        <tr  >
+          <td colspan="4" style="text-align: center;">
+            <div class="alert alert-light" role="alert">
+              Bucket is empty!
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+    <hr/>
+    <pagination-controls (pageChange)="pageChange($event)" style="text-align: center;" class="hide-page-numbers" *ngIf="objectModels.length >= 1">
+    </pagination-controls>
+  </div>
+</div>
+
+
+<ngx-loading [show]="loading" 
+             [config]="{animationType: ngxLoadingAnimationTypes.threeBounce, backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>
+

@@ -1,0 +1,330 @@
+<div class="row fixbutton">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">
+        {{title}}
+      </div>
+      <div class="col-lg-12" style="margin:8px;">
+        <button type="button" class="btn btn-primary" (click)="parent()" title="Cluster detail">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)="refresh()"><i
+          class="fas fa-recycle"></i> Refresh
+        </button>
+        <button type="button" class="btn btn-primary" style="margin-left: 5px;"
+                [disabled]="!editSwarm.Name || !editSwarm.Status || !editSwarm.Type"
+                (click)="addSwarm()" title="Save data to Database">
+          <i class="fa fa-save"></i>{{btnSaveContent}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin-top:110px;">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Cluster Infomation</h4>
+        <div class="row" style="vertical-align: middle; padding: 0rem 2.2rem">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-form-label" style="float: right; margin-top: 0.3rem; width:5.1rem;">Cluster name</label>
+              <span class="col-md-7 col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editSwarm.Name" name="clusterName" id="clusterName"
+                       placeholder="cluster name"
+                       [ngModelOptions]="{standalone: true}" required="required" #clusterName="ngModel">
+              </span>
+              <div [hidden]="clusterName.valid || clusterName.pristine" class="erroralert">
+                Cluster name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-form-label" style="float: right; margin-top: 0.3rem; width:5.1rem;">Status</label>
+              <div class="col-md-7 col-sm-9">
+                <select class="form-control" [(ngModel)]="editSwarm.Status" name="clusterStatus"
+                        [ngModelOptions]="{standalone: true}" required="required" #clusterStatus="ngModel">
+                  <option value="{{statusEnum.Active}}">Ready</option>
+                  <option value="{{statusEnum.Inactive}}">Not Ready</option>
+                  <option value="{{statusEnum.Disable}}">Disable</option>
+                </select>
+                <div [hidden]="clusterStatus.valid || clusterStatus.pristine" class="erroralert">
+                  Cluster status is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="vertical-align: middle; padding: 0rem 2.2rem">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-form-label" style="float: right; margin-top: 0.3rem; width:5.1rem;">Address</label>
+              <span class="col-md-7 col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="editSwarm.IpPublic" name="editSwarm.IpPublic" id="ippublic"
+                       placeholder="IP address/Domain name"
+                       [ngModelOptions]="{standalone: true}" required="required" #ippublic="ngModel">
+              </span>
+              <div [hidden]="ippublic.valid || ippublic.pristine" class="erroralert">
+                Ip address is invalid
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-form-label" style="float: right; margin-top: 0.3rem; width:5.1rem;">Type</label>
+              <div class="col-md-7 col-sm-9">
+                <select class="form-control" [(ngModel)]="editSwarm.Type" name="clusterType"
+                        [ngModelOptions]="{standalone: true}" required="required" #clusterStatus="ngModel">
+                        <!--
+                  <option value="{{typeClusterEnum.Storage}}">Storage</option>
+                  <option value="{{typeClusterEnum.Cache}}">Cache</option>
+                  <option value="{{typeClusterEnum.App}}">Application</option>
+              -->
+                  <option *ngFor="let serviceType of listServiceType" [value]="serviceType.ServiceTypeCode">{{serviceType.ServiceTypeName}}</option> 
+                </select>
+                <div [hidden]="clusterStatus.valid || clusterStatus.pristine"
+                     class="erroralert">
+                  Cluster name is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body" style="overflow-x: auto;">
+        <h4 class="card-title">
+          List nodes of cluster
+          <button type="button" class="btn btn-primary" style="float: right;"
+                  [title]="listService?.length > 0? 'The cluster was running the services, cannot add node':'Add node'"
+                  (click)="showEdit()" [disabled]="listService?.length > 0">
+            <i class="fa fa-plus-square-o"></i> Node
+          </button>
+        </h4>
+        <table class="table-bordered table table-responsive w-100 d-block d-md-table">
+          <thead>
+          <tr>
+            <th>Host Name</th>
+            <th>IP Address</th>
+            <th>User Name</th>
+            <th>CPU</th>
+            <th>RAM</th>
+            <th>Storage</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Optimization</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let node of editSwarm.Nodes; let i = index">
+            <td>
+              {{editSwarm.Nodes[i].HostName}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].IpAddress}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].UserName}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].Cpu}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].Ram}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].Storage}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].Role == roleEnum.Manager ? 'Manager' : 'Worker'}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].Status == statusEnum.Active ? 'Active' : 'Inactive'}}
+            </td>
+            <td>
+              {{editSwarm.Nodes[i].TurningStatus == 1 ? 'Yes' : 'No'}}
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="remove(i)"
+                      style="padding-right: 0.3rem; padding-left: 0.7rem;" title="Delete Node"><i
+                class="fas fa-trash-alt"></i>
+              </button>
+              <button type="button" class="btn btn-primary" (click)="edit(i)"
+                      style="margin-left: 0.3rem; padding-right: 0.2rem; padding-left: 0.7rem;" title="Edit Node"><i
+                class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<form #formNode="ngForm" *ngIf="showEditNode">
+  <div class="card ">
+    <div class="card-header">
+      Node Information
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Hostname</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" placeholder="Hostname" [(ngModel)]="editNode.HostName"
+                     required="required" name="HostName" #name="ngModel" maxlength="128" #nameField tabindex="1"
+                     pattern="[A-Za-z0-9-]+">
+              <div [hidden]="name.valid || name.pristine"
+                   style="color:red; font-size:0.7rem;">
+                Hostname is invalid
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">CPU</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" placeholder="Number vCpu" tabindex="6"
+                     [(ngModel)]="editNode.Cpu" required name="Cpu" #cpu="ngModel">
+              <div [hidden]="(cpu.valid && cpu.value > 0) || cpu.pristine "
+                   style="color:red; font-size:0.7rem;">
+                Cpu is invalid
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">IP Address</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" placeholder="0.0.0.0" id="Ip4Address" name="IpAddress" tabindex="2"
+                     pattern="^(((1?[1-9]?|10|2[0-4])\d|25[0-5])($|\.(?!$))){4}$"
+                     [(ngModel)]="editNode.IpAddress" required #Ip4Address="ngModel">
+              <div [hidden]="Ip4Address.valid || Ip4Address.pristine"
+                   style="color:red; font-size:0.7rem;">
+                Ip address is invalid
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">RAM</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" placeholder="Capacity memory (GB)" name="Ram" tabindex="7"
+                     [(ngModel)]="editNode.Ram" required #Ram="ngModel">
+              <div [hidden]="(Ram.valid && Ram.value > 0) || Ram.pristine "
+                   style="color:red; font-size:0.7rem;">
+                Capacity memory is invalid
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">UserName</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" placeholder="UserName" [(ngModel)]="editNode.UserName" tabindex="3"
+                     required="required" id="UserName" name="UserName" #UserName="ngModel">
+              <div [hidden]="UserName.valid  || UserName.pristine"
+                   style="color:red; font-size:0.7rem;">
+                UserName is invalid
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Storage</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" placeholder="Capacity storage (GB)" id="Storage" name="Storage" tabindex="8"
+                     [(ngModel)]="editNode.Storage" required="required" #Storage="ngModel">
+              <div [hidden]="(Storage.valid && Storage.value > 0) || Storage.pristine "
+                   style="color:red; font-size:0.7rem;">
+                Capacity Storage is invalid
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Password</label>
+            <div class="col-sm-9">
+              <input type="password" class="form-control" placeholder="Password" id="Password" name="Password" tabindex="4"
+                     [(ngModel)]="editNode.Password" required>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Status</label>
+            <div class="col-sm-9">
+              <select class="form-control" [(ngModel)]="editNode.Status" id="Status" name="Status"
+                      required="required" tabindex="9">
+                <option value="{{statusEnum.Active}}">Active</option>
+                <option value="{{statusEnum.Inactive}}">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Role</label>
+            <div class="col-sm-9">
+              <select class="form-control" [(ngModel)]="editNode.Role" id="Role" name="Role" tabindex="5"
+                      required="required">
+                <option value="{{roleEnum.Manager}}">Manager</option>
+                <option value="{{roleEnum.Worker}}">Worker</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Optimization</label>
+            <div class="col-sm-9">
+              <select class="form-control" [(ngModel)]="editNode.TurningStatus" id="TurningStatus" name="TurningStatus"
+                      required="required" tabindex="10">
+                <option value="{{turningstatus.Turning}}">Optimize</option>
+                <option value="{{turningstatus.NotTurning}}">None</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="float: right;">
+        <button type="button" class="btn btn-primary"
+                [disabled]="formNode.form.invalid || editNode.Cpu < 0 || editNode.Ram < 0 || editNode.Storage < 0"
+                title="Add node" (click)="addNode(formNode)">
+          <i class="fa fa-plus-square-o"></i> {{btnNodeContent}}
+        </button>
+        <button type="button" class="btn btn-success" style="margin-left: 5px;"
+                title="Reset" (click)="ResetForm(formNode)">
+          <i class="fa fa-retweet"></i>Clear
+        </button>
+        <button type="button" class="btn btn-secondary" style="margin-left: 5px;"
+                title="Cancel" (click)="Close(formNode)">
+          <i class="mdi mdi-cancel"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ngx-loading [show]="loading"
+             [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>

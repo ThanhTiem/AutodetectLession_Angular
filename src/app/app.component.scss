@@ -1,0 +1,18 @@
+@import '../styles';
+
+:host {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  font-size: 1rem;
+  font-family: $type-1;
+}
+
+@media screen and (min-width: 991px) {
+  .content-wrapper {
+    margin-left: 255px;
+  }
+  app-footer {
+    margin-left: 255px;
+  }
+}

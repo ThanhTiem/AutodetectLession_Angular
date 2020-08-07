@@ -1,0 +1,51 @@
+.fiad-action {
+  height: 35px;
+  width: 35px;
+  background: #ffc107;
+  display: inline-block;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 35px;
+  font-weight: 400;
+  position: relative;
+  top: 4px;
+  margin-left: 5px;
+  animation-name: fiad-action-anim;
+  transform-origin: center center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  color:white;
+}
+
+.btn-action {
+  border-radius: 50%;
+}
+
+.menu-action {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  right: 38px;
+  left: auto;
+  text-align: right;
+  width: 135px;
+  height: 30px;
+  padding:0px;
+  margin: -8px 0px 0px;
+}
+
+.fia-toggle {
+  height: 38px;
+  width: 38px;
+  background: transparent;
+  position: relative;
+  filter: alpha(opacity=40);
+  opacity: .4;
+}
+
+.hide-page-numbers /deep/ .ngx-pagination {
+  text-align: right;
+}
+
+.hide-page-numbers /deep/ .ngx-pagination li:not(.pagination-previous):not(.pagination-next) {
+  display: none;
+}

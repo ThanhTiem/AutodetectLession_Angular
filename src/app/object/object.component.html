@@ -1,0 +1,151 @@
+<div style="margin: 10px;">
+  <div class="panel-group">
+    <div class="card ">
+      <div class="card-header" style="background-color: #164385; color: white; ">
+        <span>Search</span>
+      </div>
+      <div class="card-body col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search object" [(ngModel)]="searchKey">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <div class="checkbox" style="margin-top: 1rem;">
+          <label><input type="checkbox" value=""> Use Metadata</label>
+        </div>
+      </div>
+
+      <div class="card-body" *ngIf="objectModels.length >= 1">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" style="width: 100%;">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngIf="objectModels.length >= 1; else notShow">
+            <tr *ngFor="let obj of objectModels">
+              <td><i class={{showIcon(obj.Key)}} style="width: 16px; height: 18px; "></i> {{obj.Key}}</td>
+              <td>{{common.formatSizeUnits(obj.Size)}}</td>
+            </tr>
+          </ng-container>
+          <ng-template #notShow>
+            <tr>
+              <td colspan="3" style="text-align: center;">
+                <div class="alert alert-light" role="alert">
+                  Bucket is empty!
+                </div>
+              </td>
+              <td></td>
+            </tr>
+          </ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin: 10px;">
+  <div class="panel-group">
+    <div class="card ">
+      <div class="card-header" style="background-color: #164385; color: white; ">
+        <span>List Object Of Bucket {{this.bucketName}}</span>
+        <label class="btn btn-primary" for="my-file-selector" style="float: right; margin: 0px; padding: 1px 5px;"
+               title="Upload">
+          <input id="my-file-selector" type="file" class="d-none" (change)="handleFileInput($event)">
+          <i class="fas fa-cloud-upload-alt"></i>
+        </label>
+      </div>
+      <div class="card-body">
+        <div>
+          <table class="table table-hover row-border" style="width: 100%;">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Last Modified</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="s3ObjectResult?.S3Objects?.length >= 1; else notShow">
+              <tr
+                *ngFor="let obj of s3ObjectResult.S3Objects | paginate:{itemsPerPage: itemsPerPage, currentPage:currentPage, totalItems: totalItems}">
+                <td><i class={{common.showIcon(obj.Key)}} style="width: 16px; height: 18px; "></i> {{obj.Key}}</td>
+                <td>{{common.formatSizeUnits(obj.Size)}}</td>
+                <td>{{obj.LastModified | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+              </tr>
+            </ng-container>
+            <ng-template #notShow>
+              <tr>
+                <td colspan="3" style="text-align: center;">
+                  <div class="alert alert-light" role="alert">
+                    Bucket is empty!
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+            </ng-template>
+            </tbody>
+          </table>
+          <hr/>
+          <pagination-controls (pageChange)="pageChange($event)" style="text-align: center;" class="hide-page-numbers">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-lg" style="min-width: 60%;">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header" style="background-color: #164385; color: white; ">
+        <span class="modal-title">Object Meatadata Detail</span>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form>
+          <table class="table-bordered table" *ngIf="metadataModel?.Data?.length">
+            <thead style="background-color: #164385; color: white; ">
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let meta of metadataModel?.Data; let i = index">
+              <td style="margin: 0px; padding: 0px;">
+                <input type="text" class="form-control" placeholder="Key" [(ngModel)]="metadataModel?.Data[i].Key"
+                       [ngModelOptions]="{standalone: true}">
+              </td>
+              <td style="margin: 0px; padding: 0px;">
+                <input type="text" class="form-control" placeholder="Value"
+                       [(ngModel)]="metadataModel?.Data[i].Value" [ngModelOptions]="{standalone: true}">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-info" (click)="AddMetadata()"><i class="fas fa-plus-circle"></i> Metadata</button>
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="UpdateMetadata()"><i class="fas fa-edit"></i> Update</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" #closeModal> <i class="fas fa-times"></i> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading"
+             [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>

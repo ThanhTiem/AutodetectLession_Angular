@@ -1,0 +1,58 @@
+<div class="col-md-12" style=" overflow-x:hidden; overflow-y:auto;">
+  <div class="row fixbutton"style=" overflow-x:hidden; overflow-y:auto;">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-header clusterHeader">
+         <h5 style="font-weight: bold;"> Phát hiện vùng tổn thương trên nhũ ảnh</h5>
+        </div>
+        <!-- <div class="card"> -->
+          <div class="card-body">
+            <div class="col-lg-12">
+              <!-- <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)=""><i
+                class="fas fa-home"></i> Home
+              </button>
+              <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)=""><i
+                class="fas fa-recycle"></i> refresh
+              </button> -->
+              <div class="row">
+                <div class="custom-file-upload">
+                  <label class="btn btn-outline-primary waves-effect">
+                    <input type="file" name="file" accept="image/*" (change)="handleInputChange($event)">
+                    <i class="fa fa-cloud-upload"></i> Upload
+                  </label>
+                </div>
+                <div *ngIf="imageSrc!==null && imageSrc!==undefined && imageSrc!==''">
+                  <!-- &nbsp;&nbsp; -->
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="zoom(true)"> <i class="fa fa-plus"></i>Zoom in </button> &nbsp;
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="zoom(false)"> <i class="fa fa-minus"></i> zoom out</button> &nbsp;
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="ronate()"> <i class="fa fa-refresh"></i> ronate</button> &nbsp;
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="CropMe()"> <i class="fa fa-arrows"></i> crop</button> &nbsp; 
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="detect($event)"> <i class="fa fa-arrows"></i> detect</button> &nbsp; 
+                </div>
+              </div>
+            
+              <div *ngIf="resultResult!==null && resultResult!==undefined && resultResult!==''">
+                  <img class="small" [src]="resultResult" />
+              </div>
+              <br><br>
+              <div class="row">
+                <div class="col-md-5">
+                    <!-- <label class="uploader"  *ngIf="imageSrc===null || imageSrc===undefined || imageSrc===''">
+                        <img [src]="imageSrc"  (load)="handleImageLoad()" [class.loaded]="imageLoaded"/>                         
+                    </label> -->
+                    <div *ngIf="imageSrc!==null && imageSrc!==undefined && imageSrc!==''" >
+                          <angular-cropper #angularCropper #image id="image" class="uploader" [cropperOptions]="config" (export)="resultImageFun($event)" (ready)="checkstatus($event)"[imageUrl]="imageSrc"></angular-cropper>      
+                    </div>
+                </div>
+                <div class="col-md-5">
+                  <!-- <img src="img_detect" > -->
+                  <img src="{{'data:image/jpeg;base64,' + img_detect}}" />
+              </div>
+              </div>
+            </div>
+          </div>  
+        <!-- </div> -->
+      </div>
+    </div>
+
+</div>

@@ -1,0 +1,221 @@
+<div class="row fixbutton">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header">
+        Cluster Detail
+      </div>
+      <div class="col-lg-12" style="margin:8px;">
+        <button type="button" class="btn btn-primary" (click)="parent()" title="List Cluster">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)="refresh()"><i
+          class="fas fa-recycle"></i> Refresh
+        </button>
+        <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)="EditCluster(clusterId)">
+          <i class="fas fa-edit"></i>Edit
+        </button>
+        <button type="button" class="btn btn-danger" style="margin-left: 5px;" (click)="open(content, clusterId)"
+                [disabled]="listService?.length > 0">
+          <i class="fas fa-trash-alt"></i>Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top:110px;">
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body" style="background-color: beige; font-size: 0.875rem; padding-right: 0px;">
+        <div>
+          <div>
+            <i class="mdi mdi-server text-primary" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Cluster Name:</span>
+            <span class="font-weight-medium text-right mb-0">{{cluster?.Name}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-server-security text-success" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Status:</span>
+            <span
+              class="font-weight-medium text-right mb-0">{{cluster?.Status === 1 ? 'Ready' : cluster?.Status === 2 ? 'Not Ready' : 'Disable'}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-download-network text-success" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Address:</span>
+            <span
+              class="font-weight-medium text-right mb-0">{{cluster?.IpPublic}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-server-security text-success" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Type:</span>
+            <span
+              class="font-weight-medium text-right mb-0">{{cluster?.Type}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-timer text-info" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Date Created:</span>
+            <span class="font-weight-medium text-right mb-0">{{cluster?.CreatedOn| date: 'dd/MM/yyyy HH:mm'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body" style="background-color: beige; font-size: 0.875rem; padding-right: 0px;">
+        <div>
+          <div>
+            <i class="mdi mdi-chip text-primary" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Total CPU:</span>
+            <span class="font-weight-medium text-right mb-0">{{totalCPU}} CPU</span>
+          </div>
+          <div>
+            <i class="mdi mdi-memory text-success" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Total RAM:</span>
+            <span class="font-weight-medium text-right mb-0">{{common.formatSizeUnitsTotal(totalRAM)}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-folder text-info" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Total Storage:</span>
+            <span class="font-weight-medium text-right mb-0">{{common.formatSizeUnitsTotal(totalStorage)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 grid-margin stretch-card">
+    <div class="card card-statistics">
+      <div class="card-body" style="background-color: beige; font-size: 0.875rem; padding-right: 0px;">
+        <div>
+          <div>
+            <i class="mdi mdi-settings text-warning" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Total Services:</span>
+            <span class="font-weight-medium text-right mb-0">{{totalService}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-settings text-primary" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Service Active:</span>
+            <span class="font-weight-medium text-right mb-0">{{totalServiceActive}}</span>
+          </div>
+          <div>
+            <i class="mdi mdi-settings text-danger" style="font-size: 1.5rem; vertical-align:middle;"></i>
+            <span style="width:7.5rem; display: inline-block; margin-left: 0.3rem">Service Inactive:</span>
+            <span class="font-weight-medium text-right mb-0">{{totalServiceInActive}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card ">
+  <div class="card-header">
+    List Node
+  </div>
+  <div class="card-body" style="overflow-x: auto;">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Hostname</th>
+        <th>IP Address</th>
+        <th>UserName</th>
+        <th colspan="2" style="text-align: center;">Password</th>
+        <th>CPU</th>
+        <th>RAM</th>
+        <th>Storage</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Optimization</th>
+      </tr>
+      </thead>
+      <tbody *ngIf="cluster?.Nodes">
+      <tr *ngFor='let node of cluster.Nodes'
+          [class.nodeHeader]="node.Role == 1">
+        <td>{{node.HostName}}</td>
+        <td>{{node.IpAddress}}</td>
+        <td>{{node.UserName}}</td>
+        <td width="5%" style="padding-right: 0px; margin-right: 0px;">
+          <span>{{(showPass && node.HostName === hostName) ? node.Password : common.maskAccessKey(node.Password)}}</span>
+        </td>
+        <td width="2%" style="padding-left: 5px; margin-left: 0px; padding-top: 0.7rem;">
+            <span class="fa fa-fw fa-eye field-icon toggle-password" (click)="togglePass(node.HostName)"
+                  style="cursor: pointer; margin-left: 0px; padding-left: 0px;" title="Show access key"></span>
+        </td>
+        <td>{{node.Cpu}} vCPU</td>
+        <td>{{node.Ram}} GB</td>
+        <td>{{node.Storage}} GB</td>
+        <td>{{node.Role == 1 ? 'Manager' : 'Worker'}}</td>
+        <td>{{node.Status == 1 ? 'Active' : 'Inactive'}}</td>
+        <td>{{node.TurningStatus == 1 ? 'Yes' : 'No'}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card ">
+  <div class="card-header">
+    List Services
+    <button type="button" class="btn btn-primary" style="float: right;"
+            title="Create Storage Service" (click)="CreateService()">
+      <i class="fa fa-plus-square-o"></i> Create
+    </button>
+  </div>
+  <div class="card-body" style="overflow-x: auto;">
+    <div style="display: inline-block; vertical-align: middle;height: 50px; white-space:nowrap; float:right;">
+      <label for="filter" style="clear: both; vertical-align: middle; font-size: 12px;">
+        Filter: <input type="text" class="form-control" [(ngModel)]='searchString' style="display: inline-block; width: 300px; margin-left: 10px;" id="filter"
+                       placeholder="Filter Organization or Access key">
+      </label>
+    </div>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Organization</th>
+        <th>Service</th>
+        <th>Urls</th>
+        <th>Date Created</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container
+        *ngFor="let srv of listService | filterService : ['Name','UserName'] : searchString | paginate:{itemsPerPage: itemsPerPage, currentPage:currentPage, totalItems: totalItems}"
+        (click)=" getTenantDetail(srv.Id)" style="cursor: pointer;">
+        <tr class="clusterHeader" (click)="getTenantDetail(srv.Id)" style="cursor: pointer;">
+          <td>{{srv.Name}}</td>
+          <td>{{srv.UserName}}</td>
+          <ng-container *ngIf="srv.UrlPublic; else showElse">
+            <td>{{srv.UrlPublic}}</td>
+          </ng-container>
+          <ng-template #showElse>
+            <td>{{srv.Url}}</td>
+          </ng-template>
+          <td>{{srv.CreatedOn | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{srv.Status == 1 ? 'Active' : 'Inactive'}}</td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+<!--    <ngb-pagination [collectionSize]="listService.length" [(page)]="page" [pageSize]="itemsPerPage"-->
+<!--                    aria-label="Default pagination"></ngb-pagination>-->
+    <pagination-controls (pageChange)="pageChange($event)" style="margin-top: 1rem;" class="hide-page-numbers">
+    </pagination-controls>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Warning!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete this cluster?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="removeCluster(content, clusterId)">Ok</button>
+    <button type="button" class="btn btn-primary" (click)="d('Cross click')">Cancel</button>
+  </div>
+</ng-template>
