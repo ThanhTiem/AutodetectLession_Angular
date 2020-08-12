@@ -1,160 +1,65 @@
-<div class="row fixbutton">
-  <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-header">
-        Bucket Information Detail
-      </div>
-      <div class="col-lg-12" style="margin:8px;">
-        <button type="button" class="btn btn-primary" (click)="parent()" title="Delete Object">
-          <i class="fas fa-arrow-left"></i> Back
-        </button>
-        <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)="AccessLevel()">
-          <i class="fas fa-edit"></i>{{btnAccessLevelContent}}
-        </button>
-        <button type="button" class="btn btn-primary" style="margin-left: 5px;" title="Search Objects"
-                (click)="SearchObjecs()">
-          <i class="fas fa-search"></i>Search
-        </button>
-        <button type="button" class="btn btn-primary" style="margin-left: 5px;" (click)="refresh()"><i
-          class="fas fa-recycle"></i> Refresh
-        </button>
-        <button type="button" class="btn btn-danger" style="margin-left: 5px;" (click)="open(content)"
-                title="Delete bucket" [disabled]="totalItems">
-          <i class="fas fa-trash-alt"></i>Delete
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row" style="margin-top: 110px;">
-  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 grid-margin stretch-card">
-    <div class="card card-statistics">
-      <div class="card-body" style="background-color: beige">
-        <div class="clearfix">
-          <div class="float-left">
-            <i class="mdi mdi-file text-primary icon-lg"></i>
-          </div>
-          <div class="float-right">
-            <p class="mb-0 text-right">Total Object</p>
-            <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0">{{totalItems? totalItems: 0}}</h3>
+<div class="col-md-12" style=" overflow-x:hidden; overflow-y:auto;">
+  <div class="row fixbutton"style=" overflow-x:hidden; overflow-y:auto;">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-header clusterHeader">
+         <h5 style="font-weight: bold;"> Phát hiện vùng tổn thương trên nhũ ảnh - FRCNN</h5>
+        </div>
+        <!-- <div class="card"> -->
+          <div class="card-body">
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="custom-file-upload">
+                  <label class="btn btn-outline-primary waves-effect">
+                    <input type="file" name="file" accept="image/*" (change)="handleInputChange($event)">
+                    <i class="fa fa-cloud-upload"></i> Upload
+                  </label>
+                </div>
+                <div *ngIf="imageSrc!==null && imageSrc!==undefined && imageSrc!==''">
+                  &nbsp;&nbsp;
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="zoom(true)"> <i class="fa fa-plus"></i>Zoom in </button> &nbsp;
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="zoom(false)"> <i class="fa fa-minus"></i> zoom out</button> &nbsp;
+                  <!-- <button type="button" class="btn btn-outline-primary waves-effect" (click)="ronate()"> <i class="fa fa-refresh"></i> ronate</button> &nbsp; -->
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="CropMe()"> <i class="fa fa-arrows"></i> crop</button> &nbsp; 
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="detect()"> <i class="fa fa-eye"></i> detect</button> &nbsp; 
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="reload()"> <i class="fa fa-refresh"></i> reload</button> &nbsp;
+                </div>
+              </div>
+            
+              <div *ngIf="resultResult!==null && resultResult!==undefined && resultResult!==''">
+                  <img class="small" [src]="resultResult" />
+              </div>
+              <br><br>
+              <div class="row">
+                <div class="col-md-5">
+                    <!-- <label class="uploader"  *ngIf="imageSrc===null || imageSrc===undefined || imageSrc===''">
+                        <img [src]="imageSrc"  (load)="handleImageLoad()" [class.loaded]="imageLoaded"/>                         
+                    </label> -->
+                    <div *ngIf="imageSrc!==null && imageSrc!==undefined && imageSrc!==''" >
+                          <angular-cropper #angularCropper #image id="image" class="uploader" [cropperOptions]="config" (export)="resultImageFun($event)" (ready)="checkstatus($event)"[imageUrl]="imageSrc"></angular-cropper>      
+                    </div>
+                   
+                </div>
+                <br><br>
+            </div>
+            <div id="napp" class="row">
+              <br>
+              <label style="size: 20px;font-weight: bold;margin-top: 20px;">{{label}}</label>
+              &nbsp;&nbsp;
+            
+              <div >
+                <button type="button" class="btn btn-outline-primary waves-effect" style="padding: 0.56rem 1.2rem;" (click)="zoomin()"> <i class="fa fa-plus"></i> zoom in</button> &nbsp;
+                <button type="button" class="btn btn-outline-primary waves-effect" style="padding: 0.56rem 1.2rem;" (click)="zoomout()"> <i class="fa fa-minus"></i> zoom out</button> &nbsp; 
+              </div>
+        
+              <div class="row" style="width: 1000px;height: 600px;overflow: auto;text-align: center;margin-top: 20px;">
+                <img id="nap" src="{{'data:image/jpeg;base64,' + img_detect}}" />
+              </div>
             </div>
           </div>
-        </div>
+          </div>  
+        <!-- </div> -->
       </div>
     </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 grid-margin stretch-card">
-    <div class="card card-statistics">
-      <div class="card-body" style="background-color: beige">
-        <div class="clearfix">
-          <div class="float-left">
-            <i class="mdi mdi-harddisk text-primary icon-lg"></i>
-          </div>
-          <div class="float-right">
-            <p class="mb-0 text-right">Total Size</p>
-            <div class="fluid-container">
-              <h3 class="font-weight-medium text-right mb-0">{{common.formatSizeUnits(StorageTotal)}}</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 grid-margin stretch-card">
-    <div class="card card-statistics">
-      <div class="card-body app-card-body">
-        <div>
-          <i class="mdi mdi-folder text-primary" style="font-size: 1.5rem; vertical-align:middle;"></i>
-          <span style="width:9rem; display: inline-block; margin-left: 0.3rem">Bucket name:</span>
-          <span class="font-weight-medium text-right mb-0">{{bucketName}}</span>
-        </div>
-        <div>
-          <i class="mdi mdi-security-network text-success" style="font-size: 1.5rem; vertical-align:middle;"></i>
-          <span style="width:9rem; display: inline-block; margin-left: 0.3rem">Access level:</span>
-          <span class="font-weight-medium text-right mb-0">{{accessLevel}}</span>
-        </div>
-        <div>
-          <i class="mdi mdi-av-timer text-info" style="font-size: 1.5rem; vertical-align:middle;"></i>
-          <span style="width:9rem; display: inline-block; margin-left: 0.3rem">Date created:</span>
-          <span class="font-weight-medium text-right mb-0">{{bucketCreatedOn| date: 'dd/MM/yyyy HH:mm'}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </div>
-
-
-<div class="card ">
-  <div class="card-header">
-    List Objects
-    <label class="btn btn-primary" for="my-file-selector" style="float: right; margin: 0px; padding: 8px 8px 8px 14px;"
-           title="Upload">
-      <input id="my-file-selector" type="file" class="d-none" (change)="handleFileInput($event)">
-      <i class="fas fa-cloud-upload-alt"></i>
-    </label>
-  </div>
-  <div class="card-body" style="overflow-x: auto;">
-    <table class="table table-hover row-border" style="width: 100%;">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Size</th>
-        <th>Last Modified</th>
-        <th *ngIf="accessLevel==='Public'">Url</th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngIf="s3ObjectResult?.S3Objects?.length >= 1; else notShow">
-        <tr
-          *ngFor="let obj of s3ObjectResult.S3Objects | paginate:{itemsPerPage: itemsPerPage, currentPage:currentPage, totalItems: totalItems}">
-          <td (click)="ObjectDetail(obj.Key)" title="Click to object detail" style="cursor: pointer;">
-            <i class={{common.showIcon(obj.Key)}} style="width: 16px; height: 18px; "></i> {{obj.Key}}
-          </td>
-          <td (click)="ObjectDetail(obj.Key)" title="Click to object detail" style="cursor: pointer;">{{common.formatSizeUnits(obj.Size)}}</td>
-          <td (click)="ObjectDetail(obj.Key)" style="cursor: pointer;"
-              title="Click to object detail">{{obj.LastModified | date: 'dd/MM/yyyy HH:mm'}}</td>
-          <td *ngIf="accessLevel==='Public'">
-            <a (click)="openLink(GetUrlObjectPublic(obj.Key))"
-               style="cursor: pointer;">{{accessLevel === 'Public' ? GetUrlObjectPublic(obj.Key) : ''}}</a>
-          </td>
-        </tr>
-      </ng-container>
-      <ng-template #notShow>
-        <tr>
-          <td colspan="3" style="text-align: center;">
-            <div class="alert alert-light" role="alert">
-              Bucket is empty!
-            </div>
-          </td>
-          <td></td>
-        </tr>
-      </ng-template>
-      </tbody>
-    </table>
-    <hr/>
-    <pagination-controls (pageChange)="pageChange($event)" class="hide-page-numbers">
-    </pagination-controls>
-  </div>
-</div>
-
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Warning!</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to delete this bucket?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="removeBucket()">Ok</button>
-    <button type="button" class="btn btn-primary" (click)="d('Cross click')">Cancel</button>
-  </div>
-</ng-template>
-
-<ngx-loading [show]="loading"
-             [config]="{animationType: ngxLoadingAnimationTypes.threeBounce, backdropBorderRadius: '3px', fullScreenBackdrop:true}">
-</ngx-loading>
-

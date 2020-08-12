@@ -1,19 +1,14 @@
-import {RoleEnum, StatusEnum, ClusterModel, ClusterDashboard} from '../shared/models/clusterModel';
 import {ClusterService} from '../core/services/Swarm/cluster.service';
-import {Node} from '../shared/models/resource.model';
-import {Subject} from 'rxjs';
 import {ModalDismissReasons, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {CommonService} from '../core/services/common';
 import {Router,NavigationEnd} from '@angular/router';
-import {ApiResultModel} from '../shared/models/apiresult.model';
 import { ToastrService } from "ngx-toastr";
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CropperComponent, ImageCropperResult } from 'angular-cropperjs';
-import {ngxLoadingAnimationTypes} from 'ngx-loading';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 // import { DomSanitizer } from '@angular/platform-browser';
 import Cropper from 'cropperjs';
-import { first } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { identity } from 'rxjs';
 
 @Component({
   selector: 'app-swarm',
@@ -28,34 +23,27 @@ export class ClusterComponent implements OnInit {
   activeColor: string = 'green';
   baseColor: string = '#ccc';
   overlayColor: string = 'rgba(255,255,255,0.5)';
-
+  label:any;
   img_detect:any;
   fileExtractTable: any;
   dragging: boolean = false;
   loaded: boolean = false;
   imageLoaded: boolean = false;
   imageSrc: any = '';
-  url = '';
-  ocrText = '';
 
+  src_img:any;
   config: any;
   resultImage: any;
   resultResult: any = '';
   imageData: any[];
   item = 0;
   type = '';
-  label = '';
+
 
   style = false;
-  headerCopy = "";
-  vuilongchonhinh = 'Vui lòng chọn hình';
-  thongbao = "Thông báo";
-  co = "Có";
-  khong = "Không";
-  vuilongchonhinhtothon = 'Vui lòng chọn hình có chất lượng tốt hơn';
-  dulieudaduocsaochep = 'Dữ liệu đã được sao chép';
+
   // public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
-  constructor(private toastr: ToastrService, private router: Router, private clusterService: ClusterService, private domSanitizer:DomSanitizer ) {
+  constructor(private toastr: ToastrService,private httpClient: HttpClient, private router: Router, private clusterService: ClusterService, private domSanitizer:DomSanitizer ) {
     this.config = {
       zoomable: true,
       scalable: true,
@@ -72,11 +60,11 @@ export class ClusterComponent implements OnInit {
     });
     if (this.imageSrc != '') {
       cropper = new Cropper(this.image.nativeElement, {
-        aspectRatio: 9 / 9,
+        aspectRatio: 9 / 11,
       });
     }
-    console.log('alo alo!!')
-    console.log(this.imageSrc)
+    document.getElementById('mapp').style.display = "none";
+
   }
   handleDragEnter() {
     this.dragging = true;
@@ -85,7 +73,9 @@ export class ClusterComponent implements OnInit {
   handleDragLeave() {
     this.dragging = false;
   }
-
+  reload(){
+    location.reload();
+  }
   handleDrop(e) {
     e.preventDefault();
     this.dragging = false;
@@ -198,24 +188,46 @@ export class ClusterComponent implements OnInit {
     return new Blob(byteArrays, {type: contentType});
   }
   detect(){
-    console.log('vô hàm detect rồi!!!')
-    // console.log('this.resultResult', this.resultResult);
+    // console.log('this.resultResult',this.resultResult);
+    if(this.resultResult == undefined){
+      alert('cần cắt ảnh trước!')
+    }
     try {
-      this.clusterService.detectLesion({file:this.resultResult.replace('data:image/jpeg;base64,', '')}).pipe(first()).subscribe(data => {
-        console.log('okkkk');
-        let a = JSON.parse(data.data);
-        let b = JSON.parse(a);
-        console.log(a);
-        console.log(b);
-        this.img_detect = data; 
-        console.log('okkkk');
-        console.log('this.img_detect', this.img_detect);
+      this.img_detect = null;
+      this.label = null;
+      this.httpClient.post<any>('http://127.0.0.1:5000/api/yoloPredict', this.resultResult.replace('data:image/jpeg;base64,', '') ).subscribe(data =>{
+          // console.log('data', data);
+          this.img_detect = data.img
+          this.label = data.txt
+          
+          // console.log('this.img_detect', this.img_detect );
+          console.log('this.label', this.label );
+
       });
+      document.getElementById('mapp').style.display = "block";
     } catch (error) {
       throw new Error(error);
+     
     }
     
-    
   }
- 
+  zoomin() {
+    console.log('zoom out');
+    var myImg = document.getElementById("map");
+    var currWidth = myImg.clientWidth;
+    if (currWidth == 2500) return false;
+    else {
+      myImg.style.width = (currWidth + 100) + "px";
+    }
+  }
+  
+  zoomout() {
+    console.log('zoomout');
+    var myImg = document.getElementById("map");
+    var currWidth = myImg.clientWidth;
+    if (currWidth == 100) return false;
+    else {
+      myImg.style.width = (currWidth - 100) + "px";
+    }
+  }
 }

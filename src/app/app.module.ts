@@ -18,7 +18,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 // import { TenantIoComponent } from './tenant/tenant-io/tenant-io.component';
 import { ClusterComponent } from './cluster/cluster.component';
 // import { TenantDetailComponent } from './tenant/tenant-detail/tenant-detail.component';
-import { ObjectComponent } from './object/object.component';
+// import { ObjectComponent } from './object/object.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -26,38 +26,24 @@ import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
-import { ServiceListComponent } from './service-list/service-list.component';
 import { FilterServicePipe } from './shared/pipes/filter-service.pipe';
 import {CommonService} from './core/services/common';
-import { ClusterIoComponent } from './cluster/cluster-io/cluster-io.component';
-import { ClusterServiceComponent } from './cluster/cluster-detail/cluster-service.component';
 import { BucketComponent } from './bucket/bucket.component';
-import { BucketIoComponent } from './bucket/bucket-io/bucket-io.component';
-import { ObjectDetailComponent } from './object/object-detail/object-detail.component';
-import { ObjectSearchComponent } from './object/object-search/object-search.component';
+// import { BucketIoComponent } from './bucket/bucket-io/bucket-io.component';
+// import { ObjectDetailComponent } from './object/object-detail/object-detail.component';
+// import { ObjectSearchComponent } from './object/object-search/object-search.component';
 import { AngularCropperjsModule } from 'angular-cropperjs';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // TenantComponent,
-    // TenantListComponent,
-    // TenantIoComponent,
     ClusterComponent,
-    // TenantDetailComponent,
-    ObjectComponent,
     NavbarComponent,
     SidebarComponent,
     FooterComponent,
     DashboardComponent,
-    ServiceListComponent,
     FilterServicePipe,
-    ClusterIoComponent,
-    ClusterServiceComponent,
     BucketComponent,
-    BucketIoComponent,
-    ObjectDetailComponent,
-    ObjectSearchComponent,
   ],
   imports: [
     BrowserModule,
