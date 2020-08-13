@@ -21,7 +21,7 @@
                   <button type="button" class="btn btn-outline-primary waves-effect" (click)="zoom(false)"> <i class="fa fa-minus"></i> zoom out</button> &nbsp;
                   <!-- <button type="button" class="btn btn-outline-primary waves-effect" (click)="ronate()"> <i class="fa fa-refresh"></i> ronate</button> &nbsp; -->
                   <button type="button" class="btn btn-outline-primary waves-effect" (click)="CropMe()"> <i class="fa fa-arrows"></i> crop</button> &nbsp; 
-                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="detect()"> <i class="fa fa-eye"></i> detect</button> &nbsp; 
+                  <button type="button" class="btn btn-outline-primary waves-effect" (click)="detect_frcnn()"> <i class="fa fa-eye"></i> detect</button> &nbsp; 
                   <button type="button" class="btn btn-outline-primary waves-effect" (click)="reload()"> <i class="fa fa-refresh"></i> reload</button> &nbsp;
                 </div>
               </div>
@@ -31,7 +31,7 @@
               </div>
               <br><br>
               <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-8">
                     <!-- <label class="uploader"  *ngIf="imageSrc===null || imageSrc===undefined || imageSrc===''">
                         <img [src]="imageSrc"  (load)="handleImageLoad()" [class.loaded]="imageLoaded"/>                         
                     </label> -->

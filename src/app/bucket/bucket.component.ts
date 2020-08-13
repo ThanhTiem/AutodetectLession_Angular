@@ -187,7 +187,7 @@ export class BucketComponent implements OnInit {
     }
     return new Blob(byteArrays, {type: contentType});
   }
-  detect(){
+  detect_frcnn(){
     // console.log('this.resultResult',this.resultResult);
     if(this.resultResult == undefined){
       alert('cần cắt ảnh trước!')
@@ -195,10 +195,10 @@ export class BucketComponent implements OnInit {
     try {
       this.img_detect = null;
       this.label = null;
-      this.httpClient.post<any>('http://127.0.0.1:5000/api/yoloPredict', this.resultResult.replace('data:image/jpeg;base64,', '') ).subscribe(data =>{
-          // console.log('data', data);
-          this.img_detect = data.img
-          this.label = data.txt
+      this.httpClient.post<any>('http://127.0.0.1:5000/api/frcnn_detect', this.resultResult.replace('data:image/jpeg;base64,', '') ).subscribe(data =>{
+          console.log('data', data);
+          this.img_detect = data.base64
+          this.label = data.label
           
           // console.log('this.img_detect', this.img_detect );
           console.log('this.label', this.label );

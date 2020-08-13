@@ -23,8 +23,8 @@
     background-color: #efefef;
     background-color: rgba(0, 0, 0, 0.02);
     cursor: pointer;
-    display: -webkit-flex;
-    display: flex;
+    // display: -webkit-flex;
+    // display: flex;
     height: 500px;
     width: 400px;
     -webkit-justify-content: center;
@@ -32,8 +32,7 @@
     outline: 3px dashed #ccc;
     outline-offset: 5px;
     position: relative;
-    
-    margin-left: 10px;
+    margin-left: 200px;
   }
   
   
